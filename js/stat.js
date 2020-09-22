@@ -1,25 +1,24 @@
 'use strict';
 
 // Задам переменные
-let CLOUD_X = 100;
-let CLOUD_Y = 10;
-let CLOUD_WIDTH = 420;
-let CLOUD_HEIGHT = 270;
-
-let barWidth = 40;
-let barHeight = 150;
-let barGap = 50;
-let firstBarX = CLOUD_X + 20;
-let barY = CLOUD_Y + CLOUD_HEIGHT - 40; // Координата Y гистограммы 240
+const CLOUD_X = 100;
+const CLOUD_Y = 10;
+const CLOUD_WIDTH = 420;
+const CLOUD_HEIGHT = 270;
+const BAR_WIDTH = 40;
+const BAR_HEIGHT = 150;
+const BAR_GAP = 50;
+const FIRST_BAR_X = CLOUD_X + 20;
+const BAR_Y = CLOUD_Y + CLOUD_HEIGHT - 40; // Координата Y гистограммы 240
 
 // Эта функция будет рисовать тень и облако
-let renderCloud = function (ctx, x, y, color) {
+const renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
 // Эта найдет максимальный элемент, чтобы посчитать пропорции высоты столбцов
-let getMaxElement = function (arr) {
+const getMaxElement = function (arr) {
   let maxElement = arr[0];
 
   for (let i = 1; i < arr.length; i++) {
@@ -50,15 +49,15 @@ window.renderStatistics = function (ctx, players, times) {
     // Вывожу имя игрока
     ctx.fillText(
         players[i],
-        (firstBarX + (barWidth + barGap) * i),
-        (barY + 20)
+        (FIRST_BAR_X + (BAR_WIDTH + BAR_GAP) * i),
+        (BAR_Y + 20)
     );
 
     // Вывожу время игрока
     ctx.fillText(
         Math.round(times[i]),
-        (firstBarX + (barWidth + barGap) * i),
-        (barY - times[i] / maxTime * barHeight - 10)
+        (FIRST_BAR_X + (BAR_WIDTH + BAR_GAP) * i),
+        (BAR_Y - times[i] / maxTime * BAR_HEIGHT - 10)
     );
 
     // Задаю цвет гистограммы в зависимости от имени игрока
@@ -70,10 +69,10 @@ window.renderStatistics = function (ctx, players, times) {
 
     // Рисую гистограмму
     ctx.fillRect(
-        (firstBarX + (barWidth + barGap) * i),
-        barY,
-        barWidth,
-        -(times[i] / maxTime * barHeight)
+        (FIRST_BAR_X + (BAR_WIDTH + BAR_GAP) * i),
+        BAR_Y,
+        BAR_WIDTH,
+        -(times[i] / maxTime * BAR_HEIGHT)
     );
   }
 };
