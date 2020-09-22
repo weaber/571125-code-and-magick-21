@@ -1,7 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Ширченко](https://up.htmlacademy.ru/javascript/21/user/571125).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Рысев](https://up.htmlacademy.ru/javascript/21/user/63352).
 
 ---
 
