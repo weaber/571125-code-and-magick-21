@@ -9,6 +9,7 @@ const NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кри�
 const SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 const COATS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 const EYES = ['black', 'red', 'blue', 'yellow', 'green'];
+const FIREBALL = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 const WIZARDS_AMOUNT = 4;
 
 // Структура объекта wizard
@@ -85,12 +86,12 @@ let onSetupPopupEscPress = function (evt) {
 
 let openSetupPopup = function () {
   setup.classList.remove('hidden');
-  document.addEventListener('keydown', onSetupPopupEscPress());
+  document.addEventListener('keydown', onSetupPopupEscPress);
 };
 
 let closeSetupPopup = function () {
   setup.classList.add('hidden');
-  document.removeEventListener('keydown', onSetupPopupEscPress());
+  document.removeEventListener('keydown', onSetupPopupEscPress);
 };
 
 setupOpen.addEventListener('click', function () {
@@ -113,11 +114,44 @@ setupClose.addEventListener('keydown', function (evt) {
   }
 });
 
-// let saveButton = document.querySelector('.setup-submit');
+// (7) Валидация сделана средствами HTML в index.html
 
-// saveButton = addEventListener('submit', function() {
-//   evt.preventDefault();
+// (8) Изменение цветов
+let setupForm = setup.querySelector('form');
 
-// })
+let coat = document.querySelector('.setup-wizard .wizard-coat');
+let eyes = document.querySelector('.setup-wizard .wizard-eyes');
+let fireball = document.querySelector('.setup-fireball-wrap');
 
-// (7) Валидация
+let changeCoatColor = function () {
+  let randomCoatColor = randomElement(COATS);
+  let coatConfig = setupForm.querySelector('input[name="coat-color"]');
+  coatConfig.value = randomCoatColor;
+  coat.setAttribute('style', 'fill: ' + randomCoatColor);
+};
+
+coat.addEventListener('click', function () {
+  changeCoatColor();
+});
+
+let changeEyesColor = function () {
+  let randomEyesColor = randomElement(EYES);
+  let eyesConfig = setupForm.querySelector('input[name="eyes-color"]');
+  eyesConfig.value = randomEyesColor;
+  eyes.setAttribute('style', 'fill: ' + randomEyesColor);
+};
+
+eyes.addEventListener('click', function () {
+  changeEyesColor();
+});
+
+let changeFireballColor = function () {
+  let randomFireballColor = randomElement(FIREBALL);
+  let fireballConfig = setupForm.querySelector('input[name="fireball-color"]');
+  fireballConfig.value = randomFireballColor;
+  fireball.style.backgroundColor = randomFireballColor;
+};
+
+fireball.addEventListener('click', function () {
+  changeFireballColor();
+});
