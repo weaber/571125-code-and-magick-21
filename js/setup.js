@@ -1,8 +1,8 @@
 'use strict';
 
 // (1) Показываю блок .setup
-let userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
+let setup = document.querySelector('.setup');
+// setup.classList.remove('hidden');
 
 // (2) Из исходных данных генерирую таблицу с 4-мя волшебниками
 const NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
@@ -70,3 +70,54 @@ setupSimilarList.appendChild(fragment);
 
 // (5) Показываю результат
 document.querySelector('.setup-similar').classList.remove('hidden');
+
+// (6) Обработка событий: открытие/закрытие окна настройки персонажа
+
+let setupOpen = document.querySelector('.setup-open');
+let setupClose = document.querySelector('.setup-close');
+
+let onSetupPopupEscPress = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeSetupPopup();
+  }
+};
+
+let openSetupPopup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onSetupPopupEscPress());
+};
+
+let closeSetupPopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onSetupPopupEscPress());
+};
+
+setupOpen.addEventListener('click', function () {
+  openSetupPopup();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    openSetupPopup();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closeSetupPopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    closeSetupPopup();
+  }
+});
+
+// let saveButton = document.querySelector('.setup-submit');
+
+// saveButton = addEventListener('submit', function() {
+//   evt.preventDefault();
+
+// })
+
+// (7) Валидация
