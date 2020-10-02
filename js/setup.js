@@ -74,8 +74,8 @@ document.querySelector('.setup-similar').classList.remove('hidden');
 
 // (6) Обработка событий: открытие/закрытие окна настройки персонажа
 
-let setupOpen = document.querySelector('.setup-open');
-let setupClose = document.querySelector('.setup-close');
+let setupOpen = document.querySelector('.setup-open'); // setupOpenNode или setupOpenElement т.к. узел (уточнить)
+let setupClose = document.querySelector('.setup-close'); //
 
 let onSetupPopupEscPress = function (evt) {
   if (evt.key === 'Escape') {
@@ -114,6 +114,17 @@ setupClose.addEventListener('keydown', function (evt) {
   }
 });
 
+// Вешаю eventListener на поле input и запрещаю всплытие события, если нажат Escape, иначе выше его отловят и форма закроется
+// если не указать, что Escape, тогда нельзя будет имя вводить
+let inputUsername = setup.querySelector('input[name="username"]');
+inputUsername.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+});
+
+
 // (7) Валидация сделана средствами HTML в index.html
 
 // (8) Изменение цветов
@@ -130,9 +141,7 @@ let changeCoatColor = function () {
   coat.setAttribute('style', 'fill: ' + randomCoatColor);
 };
 
-coat.addEventListener('click', function () {
-  changeCoatColor();
-});
+coat.addEventListener('click', changeCoatColor);
 
 let changeEyesColor = function () {
   let randomEyesColor = randomElement(EYES);
@@ -141,9 +150,7 @@ let changeEyesColor = function () {
   eyes.setAttribute('style', 'fill: ' + randomEyesColor);
 };
 
-eyes.addEventListener('click', function () {
-  changeEyesColor();
-});
+eyes.addEventListener('click', changeEyesColor);
 
 let changeFireballColor = function () {
   let randomFireballColor = randomElement(FIREBALL);
@@ -152,6 +159,4 @@ let changeFireballColor = function () {
   fireball.style.backgroundColor = randomFireballColor;
 };
 
-fireball.addEventListener('click', function () {
-  changeFireballColor();
-});
+fireball.addEventListener('click', changeFireballColor);
