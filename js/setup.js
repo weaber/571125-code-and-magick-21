@@ -1,14 +1,15 @@
 'use strict';
 
 // (1) Показываю блок .setup
-let userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
+let setup = document.querySelector('.setup');
+// setup.classList.remove('hidden');
 
 // (2) Из исходных данных генерирую таблицу с 4-мя волшебниками
 const NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 const SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 const COATS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 const EYES = ['black', 'red', 'blue', 'yellow', 'green'];
+const FIREBALL = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 const WIZARDS_AMOUNT = 4;
 
 // Структура объекта wizard
@@ -70,3 +71,92 @@ setupSimilarList.appendChild(fragment);
 
 // (5) Показываю результат
 document.querySelector('.setup-similar').classList.remove('hidden');
+
+// (6) Обработка событий: открытие/закрытие окна настройки персонажа
+
+let setupOpen = document.querySelector('.setup-open'); // setupOpenNode или setupOpenElement т.к. узел (уточнить)
+let setupClose = document.querySelector('.setup-close'); //
+
+let onSetupPopupEscPress = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeSetupPopup();
+  }
+};
+
+let openSetupPopup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onSetupPopupEscPress);
+};
+
+let closeSetupPopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onSetupPopupEscPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  openSetupPopup();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    openSetupPopup();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closeSetupPopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    closeSetupPopup();
+  }
+});
+
+// Вешаю eventListener на поле input и запрещаю всплытие события, если нажат Escape, иначе выше его отловят и форма закроется
+// если не указать, что Escape, тогда нельзя будет имя вводить
+let inputUsername = setup.querySelector('input[name="username"]');
+inputUsername.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+});
+
+
+// (7) Валидация сделана средствами HTML в index.html
+
+// (8) Изменение цветов
+let setupForm = setup.querySelector('form');
+
+let coat = document.querySelector('.setup-wizard .wizard-coat');
+let eyes = document.querySelector('.setup-wizard .wizard-eyes');
+let fireball = document.querySelector('.setup-fireball-wrap');
+
+let changeCoatColor = function () {
+  let randomCoatColor = randomElement(COATS);
+  let coatConfig = setupForm.querySelector('input[name="coat-color"]');
+  coatConfig.value = randomCoatColor;
+  coat.setAttribute('style', 'fill: ' + randomCoatColor);
+};
+
+coat.addEventListener('click', changeCoatColor);
+
+let changeEyesColor = function () {
+  let randomEyesColor = randomElement(EYES);
+  let eyesConfig = setupForm.querySelector('input[name="eyes-color"]');
+  eyesConfig.value = randomEyesColor;
+  eyes.setAttribute('style', 'fill: ' + randomEyesColor);
+};
+
+eyes.addEventListener('click', changeEyesColor);
+
+let changeFireballColor = function () {
+  let randomFireballColor = randomElement(FIREBALL);
+  let fireballConfig = setupForm.querySelector('input[name="fireball-color"]');
+  fireballConfig.value = randomFireballColor;
+  fireball.style.backgroundColor = randomFireballColor;
+};
+
+fireball.addEventListener('click', changeFireballColor);
