@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
   let coat = document.querySelector('.setup-wizard .wizard-coat');
   let eyes = document.querySelector('.setup-wizard .wizard-eyes');

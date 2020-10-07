@@ -1,14 +1,15 @@
 'use strict';
+
 (function () {
   const NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
   const SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   const WIZARDS_AMOUNT = 4;
 
-  const getWizards = function (amount, names, surnames, coats, eyes) {
-    let wizards = [];
+  const generateWizards = function (amount, names, surnames, coats, eyes) {
+    const wizards = [];
 
     for (let i = 0; i < amount; i++) {
-      let wizard = {};
+      const wizard = {};
       wizard.name = window.utils.getRandomElement(names) + ' ' + window.utils.getRandomElement(surnames);
       wizard.coatColor = window.utils.getRandomElement(coats);
       wizard.eyesColor = window.utils.getRandomElement(eyes);
@@ -18,33 +19,39 @@
     return wizards;
   };
 
-  let wizards = getWizards(WIZARDS_AMOUNT, NAMES, SURNAMES, window.utils.COAT_COLORS, window.utils.EYES_COLORS);
+  const wizards = generateWizards(
+      WIZARDS_AMOUNT,
+      NAMES,
+      SURNAMES,
+      window.utils.COAT_COLORS,
+      window.utils.EYES_COLORS
+  );
 
   // (3) Функция для клонирования и заполнения шаблона
   // Ищу шаблон
-  let similarWizardTemplate = document.querySelector('#similar-wizard-template')
+  const similarWizardTemplate = document.querySelector('#similar-wizard-template')
       .content
       .querySelector('.setup-similar-item');
 
-  let renderWizard = function (wizard) {
-    let wizardElement = similarWizardTemplate.cloneNode(true);
+  const renderWizard = function (wizard) {
+    const wizardTemplate = similarWizardTemplate.cloneNode(true);
 
-    wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardTemplate.querySelector('.setup-similar-label').textContent = wizard.name;
+    wizardTemplate.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+    wizardTemplate.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
-    return wizardElement;
+    return wizardTemplate;
   };
 
   // (4) Создаю фрагмент, заполняю фрагмент, добавляю фрагмент в DOM
-  let fragment = document.createDocumentFragment();
+  const wizardsContainerFragment = document.createDocumentFragment();
 
   for (let i = 0; i < WIZARDS_AMOUNT; i++) {
-    fragment.appendChild(renderWizard(wizards[i]));
+    wizardsContainerFragment.appendChild(renderWizard(wizards[i]));
   }
 
-  let setupSimilarList = document.querySelector('.setup-similar-list');
-  setupSimilarList.appendChild(fragment);
+  const setupSimilarListElement = document.querySelector('.setup-similar-list');
+  setupSimilarListElement.appendChild(wizardsContainerFragment);
 
   // (5) Показываю результат
   document.querySelector('.setup-similar').classList.remove('hidden');
