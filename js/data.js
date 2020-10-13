@@ -1,58 +1,47 @@
 'use strict';
 
 (function () {
-  const NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  const SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   const WIZARDS_AMOUNT = 4;
 
-  const generateWizards = function (amount, names, surnames, coats, eyes) {
-    const wizards = [];
-
-    for (let i = 0; i < amount; i++) {
-      const wizard = {};
-      wizard.name = window.utils.getRandomElement(names) + ' ' + window.utils.getRandomElement(surnames);
-      wizard.coatColor = window.utils.getRandomElement(coats);
-      wizard.eyesColor = window.utils.getRandomElement(eyes);
-
-      wizards.push(wizard);
-    }
-    return wizards;
-  };
-
-  const wizards = generateWizards(
-      WIZARDS_AMOUNT,
-      NAMES,
-      SURNAMES,
-      window.utils.COAT_COLORS,
-      window.utils.EYES_COLORS
-  );
-
-  // (3) Функция для клонирования и заполнения шаблона
-  // Ищу шаблон
-  const similarWizardTemplate = document.querySelector('#similar-wizard-template')
+  const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
       .content
-      .querySelector('.setup-similar-item');
+      .querySelector(`.setup-similar-item`);
 
   const renderWizard = function (wizard) {
     const wizardTemplate = similarWizardTemplate.cloneNode(true);
 
-    wizardTemplate.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardTemplate.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardTemplate.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardTemplate.querySelector(`.setup-similar-label`).textContent = wizard.name;
+    wizardTemplate.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
+    wizardTemplate.querySelector(`.wizard-eyes`).style.fill = wizard.eyesColor;
 
     return wizardTemplate;
   };
 
-  // (4) Создаю фрагмент, заполняю фрагмент, добавляю фрагмент в DOM
-  const wizardsContainerFragment = document.createDocumentFragment();
+  const successHandler = function (wizards) {
+    const wizardsContainerFragment = document.createDocumentFragment();
 
-  for (let i = 0; i < WIZARDS_AMOUNT; i++) {
-    wizardsContainerFragment.appendChild(renderWizard(wizards[i]));
-  }
+    for (let i = 0; i < WIZARDS_AMOUNT; i++) {
+      wizardsContainerFragment.appendChild(renderWizard(window.utils.getRandomElement(wizards)));
+    }
 
-  const setupSimilarListElement = document.querySelector('.setup-similar-list');
-  setupSimilarListElement.appendChild(wizardsContainerFragment);
+    const setupSimilarListElement = document.querySelector(`.setup-similar-list`);
+    setupSimilarListElement.appendChild(wizardsContainerFragment);
 
-  // (5) Показываю результат
-  document.querySelector('.setup-similar').classList.remove('hidden');
+    document.querySelector(`.setup-similar`).classList.remove(`hidden`);
+  };
+
+  const errorHandler = function (errorMessage) {
+    const node = document.createElement(`div`);
+    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
+    node.style.position = `absolute`;
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = `30px`;
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
+  };
+
+  window.backend.load(successHandler, errorHandler);
+
 })();
