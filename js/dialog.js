@@ -103,9 +103,9 @@
   });
 
   wizardForm.addEventListener(`submit`, function (evt) {
+    evt.preventDefault();
     window.backend.save(new FormData(wizardForm), function () {
       setupElement.classList.add(`hidden`);
     });
-    evt.preventDefault();
   });
 })();
