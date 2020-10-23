@@ -42,12 +42,14 @@
     }));
   };
 
+  const updateWizardsWithDebounce = window.debounce(updateWizards);
+
   wizardCoatElement.addEventListener(`click`, function () {
     const newColor = window.utils.getRandomElement(COAT_COLORS);
     wizardCoatElement.style.fill = newColor;
     document.querySelector(`input[name="coat-color"]`).value = newColor;
     coatColor = newColor;
-    window.debounce(updateWizards);
+    updateWizardsWithDebounce();
   });
 
   wizardEyesElement.addEventListener(`click`, function () {
@@ -55,7 +57,7 @@
     wizardEyesElement.style.fill = newColor;
     document.querySelector(`input[name="eyes-color"]`).value = newColor;
     eyesColor = newColor;
-    window.debounce(updateWizards);
+    updateWizardsWithDebounce();
   });
 
   wizardFireballElement.addEventListener(`click`, function () {
