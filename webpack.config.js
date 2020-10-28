@@ -3,6 +3,7 @@ const path = require(`path`);
 module.exports = {
   entry: [
     `/js/utils.js`,
+    `/js/avatar.js`,
     `/js/debounce.js`,
     `/js/backend.js`,
     `/js/render.js`,
